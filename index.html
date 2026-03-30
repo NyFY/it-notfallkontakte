@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT-Notfallkontakte – Digitale Prophylaxe</title>
+<style>
+  :root {
+    --primary: #082540;
+    --accent: #4B91B9;
+    --bg: #EAF5FA;
+    --white: #ffffff;
+    --shadow: rgba(8,37,64,0.10);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--primary);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 1rem 2rem;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  header h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  header p {
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-top: 0.35rem;
+  }
+  .cards {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    box-shadow: 0 2px 8px var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+  .card .icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+  }
+  .card .info { flex: 1; min-width: 0; }
+  .card .name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card .note {
+    font-size: 0.78rem;
+    color: #5a7a8a;
+    margin-top: 0.15rem;
+    line-height: 1.35;
+  }
+  .card .action {
+    flex-shrink: 0;
+  }
+  .card .action a,
+  .card .action button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--white);
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.15rem;
+    transition: background 0.15s;
+  }
+  .card .action a:hover,
+  .card .action button:hover {
+    background: var(--primary);
+  }
+
+  .btn-all {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 1rem;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 14px;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-align: center;
+    text-decoration: none;
+  }
+  .btn-all:hover { background: var(--accent); }
+
+  .status {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-align: center;
+    min-height: 1.2em;
+  }
+
+  footer {
+    margin-top: auto;
+    padding-top: 2rem;
+    font-size: 0.72rem;
+    color: #8aa8b8;
+    text-align: center;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>IT-Notfallkontakte<br>für Zahnarztpraxen</h1>
+  <p>Digitale Prophylaxe – Alpha Omega 2026</p>
+</header>
+
+<div class="cards">
+
+  <div class="card">
+    <div class="icon">🛡️</div>
+    <div class="info">
+      <div class="name">BSI-Hotline</div>
+      <div class="note">Kostenlose Erstberatung bei IT-Sicherheitsvorfällen</div>
+    </div>
+    <div class="action">
+      <button onclick="saveContact('bsi')" title="Kontakt speichern">+</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🚔</div>
+    <div class="info">
+      <div class="name">LKA Cybercrime NRW</div>
+      <div class="note">Strafanzeige bei Cybercrime erstatten</div>
+    </div>
+    <div class="action">
+      <button onclick="saveContact('lka')" title="Kontakt speichern">+</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">📋</div>
+    <div class="info">
+      <div class="name">LDI NRW (Datenschutz)</div>
+      <div class="note">DSGVO-Meldung – Frist 72 Stunden</div>
+    </div>
+    <div class="action">
+      <button onclick="saveContact('ldi')" title="Kontakt speichern">+</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🔓</div>
+    <div class="info">
+      <div class="name">No More Ransom</div>
+      <div class="note">Kostenlose Entschlüsselungstools bei Ransomware</div>
+    </div>
+    <div class="action">
+      <button onclick="saveContact('nomoreransom')" title="Kontakt speichern">+</button>
+    </div>
+  </div>
+
+</div>
+
+<button class="btn-all" id="btnAll">Alle 4 Kontakte speichern</button>
+<div class="status" id="status"></div>
+
+<footer>
+  Niklas Nengelken · <a href="https://niklasnengelken.de">niklasnengelken.de</a>
+</footer>
+
+<script>
+const CONTACTS = {
+  bsi: {
+    fn: 'BSI-Hotline',
+    org: 'Bundesamt für Sicherheit in der Informationstechnik',
+    tel: '+498002741000',
+    note: 'Kostenlos. Erstberatung bei IT-Sicherheitsvorfällen.'
+  },
+  lka: {
+    fn: 'LKA Cybercrime NRW',
+    org: 'Landeskriminalamt Nordrhein-Westfalen',
+    tel: '+492119394040',
+    note: 'Zentrale Ansprechstelle Cybercrime. Strafanzeige erstatten.'
+  },
+  ldi: {
+    fn: 'LDI NRW (Datenschutz)',
+    org: 'Landesbeauftragte für Datenschutz und Informationsfreiheit NRW',
+    tel: '+49211384240',
+    note: 'DSGVO-Meldung bei Datenschutzverletzung. Frist 72 Stunden.'
+  },
+  nomoreransom: {
+    fn: 'No More Ransom',
+    org: 'No More Ransom Project',
+    url: 'https://nomoreransom.org',
+    note: 'Kostenlose Entschlüsselungstools bei Ransomware.'
+  }
+};
+
+function buildVCard(c) {
+  let lines = [
+    'BEGIN:VCARD',
+    'VERSION:3.0',
+    'FN:' + c.fn,
+    'ORG:' + c.org
+  ];
+  if (c.tel) lines.push('TEL;TYPE=WORK,VOICE:' + c.tel);
+  if (c.url) lines.push('URL:' + c.url);
+  lines.push('NOTE:' + c.note);
+  lines.push('CATEGORIES:IT-Notfall');
+  lines.push('END:VCARD');
+  return lines.join('\r\n');
+}
+
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function triggerDownload(vcfString, filename) {
+  const blob = new Blob([vcfString], { type: 'text/vcard;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 100);
+}
+
+function openVcfUrl(key) {
+  // For iOS: open the .vcf file directly so Safari hands it to Contacts
+  window.location.href = 'vcf/' + key + '.vcf';
+}
+
+function saveContact(key) {
+  const c = CONTACTS[key];
+  if (!c) return;
+  if (isIOS()) {
+    openVcfUrl(key);
+  } else {
+    triggerDownload(buildVCard(c), key + '.vcf');
+  }
+}
+
+function setStatus(msg) {
+  document.getElementById('status').textContent = msg;
+}
+
+// "Save all" button
+document.getElementById('btnAll').addEventListener('click', function() {
+  if (isIOS()) {
+    // iOS: guide user through sequential saves
+    const keys = Object.keys(CONTACTS);
+    let i = 0;
+    setStatus('Kontakt ' + (i+1) + ' von ' + keys.length + ' wird geöffnet …');
+    openVcfUrl(keys[i]);
+    i++;
+    // Show instructions after first contact opens
+    setTimeout(() => {
+      setStatus('Bitte Kontakt speichern, dann hierher zurückkehren und nächsten Kontakt antippen (⊕).');
+    }, 1500);
+  } else {
+    // Android / Desktop: download combined multi-vCard
+    const all = Object.values(CONTACTS).map(buildVCard).join('\r\n');
+    triggerDownload(all, 'IT-Notfallkontakte.vcf');
+    setStatus('Download gestartet – alle 4 Kontakte in einer Datei.');
+  }
+});
+</script>
+
+</body>
+</html>
