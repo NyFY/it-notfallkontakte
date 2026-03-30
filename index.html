@@ -102,33 +102,6 @@
     background: var(--primary);
   }
 
-  .btn-all {
-    display: block;
-    width: 100%;
-    max-width: 420px;
-    margin-top: 1rem;
-    padding: 0.9rem;
-    border: none;
-    border-radius: 14px;
-    background: var(--primary);
-    color: var(--white);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s;
-    text-align: center;
-    text-decoration: none;
-  }
-  .btn-all:hover { background: var(--accent); }
-
-  .status {
-    margin-top: 0.75rem;
-    font-size: 0.8rem;
-    color: var(--accent);
-    text-align: center;
-    min-height: 1.2em;
-  }
-
   footer {
     margin-top: auto;
     padding-top: 2rem;
@@ -194,8 +167,6 @@
 
 </div>
 
-<button class="btn-all" id="btnAll">Alle 4 Kontakte speichern</button>
-<div class="status" id="status"></div>
 
 <footer>
   Niklas Nengelken · <a href="https://niklasnengelken.de">niklasnengelken.de</a>
@@ -278,30 +249,6 @@ function saveContact(key) {
   }
 }
 
-function setStatus(msg) {
-  document.getElementById('status').textContent = msg;
-}
-
-// "Save all" button
-document.getElementById('btnAll').addEventListener('click', function() {
-  if (isIOS()) {
-    // iOS: guide user through sequential saves
-    const keys = Object.keys(CONTACTS);
-    let i = 0;
-    setStatus('Kontakt ' + (i+1) + ' von ' + keys.length + ' wird geöffnet …');
-    openVcfUrl(keys[i]);
-    i++;
-    // Show instructions after first contact opens
-    setTimeout(() => {
-      setStatus('Bitte Kontakt speichern, dann hierher zurückkehren und nächsten Kontakt antippen (⊕).');
-    }, 1500);
-  } else {
-    // Android / Desktop: download combined multi-vCard
-    const all = Object.values(CONTACTS).map(buildVCard).join('\r\n');
-    triggerDownload(all, 'IT-Notfallkontakte.vcf');
-    setStatus('Download gestartet – alle 4 Kontakte in einer Datei.');
-  }
-});
 </script>
 
 </body>
