@@ -47,11 +47,17 @@
   .card {
     background: var(--white);
     border-radius: 14px;
-    padding: 1rem 1.1rem;
     box-shadow: 0 2px 8px var(--shadow);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 4px 16px var(--shadow); }
+  .card-header {
     display: flex;
     align-items: center;
     gap: 0.85rem;
+    padding: 1rem 1.1rem;
   }
   .card .icon {
     flex-shrink: 0;
@@ -78,28 +84,96 @@
     margin-top: 0.15rem;
     line-height: 1.35;
   }
-  .card .action {
+  .card .chevron {
     flex-shrink: 0;
+    font-size: 0.85rem;
+    color: var(--accent);
+    transition: transform 0.25s;
   }
-  .card .action a,
-  .card .action button {
+  .card.open .chevron { transform: rotate(90deg); }
+
+  .card-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  .card.open .card-details {
+    max-height: 600px;
+  }
+  .card-details-inner {
+    padding: 0 1.1rem 1rem;
+    border-top: 1px solid var(--bg);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #334e5e;
+  }
+  .card-details-inner dt {
+    font-weight: 600;
+    color: var(--primary);
+    margin-top: 0.6rem;
+  }
+  .card-details-inner dt:first-child { margin-top: 0.7rem; }
+  .card-details-inner dd { margin-left: 0; }
+  .card-details-inner a {
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .card-details-inner a:hover { text-decoration: underline; }
+
+  .btn-save {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    border: none;
     border-radius: 10px;
     background: var(--accent);
     color: var(--white);
-    text-decoration: none;
-    border: none;
+    font-size: 0.82rem;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 1.15rem;
     transition: background 0.15s;
   }
-  .card .action a:hover,
-  .card .action button:hover {
-    background: var(--primary);
+  .btn-save:hover { background: var(--primary); }
+
+  /* LDI Dropdown */
+  .ldi-select-wrap {
+    margin-top: 0.6rem;
+  }
+  .ldi-select-wrap label {
+    display: block;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.3rem;
+  }
+  .ldi-select-wrap select {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    border: 1.5px solid #c4dbe6;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: var(--primary);
+    background: var(--white);
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234B91B9' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+  }
+  .ldi-info {
+    margin-top: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--bg);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  .ldi-info .ldi-name {
+    font-weight: 600;
+    color: var(--primary);
   }
 
   footer {
@@ -121,93 +195,329 @@
 
 <div class="cards">
 
-  <div class="card">
-    <div class="icon">🛡️</div>
-    <div class="info">
-      <div class="name">BSI-Hotline</div>
-      <div class="note">Kostenlose Erstberatung bei IT-Sicherheitsvorfällen</div>
+  <!-- BSI -->
+  <div class="card" id="card-bsi">
+    <div class="card-header" onclick="toggle('card-bsi')">
+      <div class="icon">🛡️</div>
+      <div class="info">
+        <div class="name">BSI-Hotline</div>
+        <div class="note">Kostenlose Erstberatung bei IT-Sicherheitsvorfällen</div>
+      </div>
+      <div class="chevron">▶</div>
     </div>
-    <div class="action">
-      <button onclick="saveContact('bsi')" title="Kontakt speichern">+</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="icon">🚔</div>
-    <div class="info">
-      <div class="name">LKA Cybercrime NRW</div>
-      <div class="note">Strafanzeige bei Cybercrime erstatten</div>
-    </div>
-    <div class="action">
-      <button onclick="saveContact('lka')" title="Kontakt speichern">+</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="icon">📋</div>
-    <div class="info">
-      <div class="name">LDI NRW (Datenschutz)</div>
-      <div class="note">DSGVO-Meldung – Frist 72 Stunden</div>
-    </div>
-    <div class="action">
-      <button onclick="saveContact('ldi')" title="Kontakt speichern">+</button>
+    <div class="card-details">
+      <div class="card-details-inner">
+        <dl>
+          <dt>Telefon</dt>
+          <dd><a href="tel:+498002741000">0800 274 1000</a> (kostenlos)</dd>
+          <dt>E-Mail</dt>
+          <dd><a href="mailto:service-center@bsi.bund.de">service-center@bsi.bund.de</a></dd>
+          <dt>Erreichbarkeit</dt>
+          <dd>Mo–Fr, 08:00–18:00 Uhr</dd>
+          <dt>Funktion</dt>
+          <dd>Erstberatung bei IT-Sicherheitsvorfällen, Malware, Phishing und Identitätsdiebstahl. Das BSI hilft bei der Einschätzung des Vorfalls und gibt erste Handlungsempfehlungen.</dd>
+        </dl>
+        <button class="btn-save" onclick="event.stopPropagation(); saveContact('bsi')">+ Kontakt speichern</button>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="icon">🔓</div>
-    <div class="info">
-      <div class="name">No More Ransom</div>
-      <div class="note">Kostenlose Entschlüsselungstools bei Ransomware</div>
+  <!-- LKA -->
+  <div class="card" id="card-lka">
+    <div class="card-header" onclick="toggle('card-lka')">
+      <div class="icon">🚔</div>
+      <div class="info">
+        <div class="name">LKA Cybercrime NRW</div>
+        <div class="note">Zentrale Ansprechstelle Cybercrime (ZAC)</div>
+      </div>
+      <div class="chevron">▶</div>
     </div>
-    <div class="action">
-      <button onclick="saveContact('nomoreransom')" title="Kontakt speichern">+</button>
+    <div class="card-details">
+      <div class="card-details-inner">
+        <dl>
+          <dt>Telefon</dt>
+          <dd><a href="tel:+492119394040">0211 939-4040</a></dd>
+          <dt>E-Mail</dt>
+          <dd><a href="mailto:cybercrime.lka@polizei.nrw.de">cybercrime.lka@polizei.nrw.de</a></dd>
+          <dt>Erreichbarkeit</dt>
+          <dd>24/7 – rund um die Uhr erreichbar</dd>
+          <dt>Funktion</dt>
+          <dd>Strafanzeige bei Cyberangriffen auf Unternehmen und Praxen. Schnelle Erstreaktion bei laufenden Angriffen, Koordination der Ermittlungen und präventive Beratung.</dd>
+        </dl>
+        <button class="btn-save" onclick="event.stopPropagation(); saveContact('lka')">+ Kontakt speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LDI -->
+  <div class="card" id="card-ldi">
+    <div class="card-header" onclick="toggle('card-ldi')">
+      <div class="icon">📋</div>
+      <div class="info">
+        <div class="name">Datenschutzaufsicht</div>
+        <div class="note">DSGVO-Meldung bei Datenschutzverletzung – Frist 72h</div>
+      </div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="card-details">
+      <div class="card-details-inner">
+        <dl>
+          <dt>Funktion</dt>
+          <dd>Meldung von Datenschutzverletzungen nach Art. 33 DSGVO. Bei einem IT-Vorfall mit Zugriff auf Patientendaten muss die zuständige Aufsichtsbehörde <strong>innerhalb von 72 Stunden</strong> informiert werden.</dd>
+          <dt>Zuständigkeit</dt>
+          <dd>Richtet sich nach dem <strong>Sitz der Praxis</strong>. Bitte Bundesland auswählen:</dd>
+        </dl>
+
+        <div class="ldi-select-wrap">
+          <select id="ldi-select" onchange="updateLDI()">
+            <option value="">– Bundesland wählen –</option>
+            <option value="bw">Baden-Württemberg</option>
+            <option value="by">Bayern</option>
+            <option value="be">Berlin</option>
+            <option value="bb">Brandenburg</option>
+            <option value="hb">Bremen</option>
+            <option value="hh">Hamburg</option>
+            <option value="he">Hessen</option>
+            <option value="mv">Mecklenburg-Vorpommern</option>
+            <option value="ni">Niedersachsen</option>
+            <option value="nw" selected>Nordrhein-Westfalen</option>
+            <option value="rp">Rheinland-Pfalz</option>
+            <option value="sl">Saarland</option>
+            <option value="sn">Sachsen</option>
+            <option value="st">Sachsen-Anhalt</option>
+            <option value="sh">Schleswig-Holstein</option>
+            <option value="th">Thüringen</option>
+          </select>
+        </div>
+
+        <div class="ldi-info" id="ldi-info"></div>
+
+        <button class="btn-save" onclick="event.stopPropagation(); saveSelectedLDI()">+ Kontakt speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- No More Ransom -->
+  <div class="card" id="card-nmr">
+    <div class="card-header" onclick="toggle('card-nmr')">
+      <div class="icon">🔓</div>
+      <div class="info">
+        <div class="name">No More Ransom</div>
+        <div class="note">Kostenlose Entschlüsselungstools bei Ransomware</div>
+      </div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="card-details">
+      <div class="card-details-inner">
+        <dl>
+          <dt>Website</dt>
+          <dd><a href="https://www.nomoreransom.org" target="_blank" rel="noopener">www.nomoreransom.org</a></dd>
+          <dt>Betreiber</dt>
+          <dd>Europol, Polizei Niederlande, Kaspersky, McAfee und 190+ Partner</dd>
+          <dt>Kosten</dt>
+          <dd>Komplett kostenlos – keine Registrierung nötig</dd>
+          <dt>So funktioniert's</dt>
+          <dd>1. „Crypto Sheriff" aufrufen → 2. Verschlüsselte Dateien oder Erpresserschreiben hochladen → 3. Ransomware wird identifiziert → 4. Falls verfügbar, Entschlüsselungstool herunterladen und ausführen.</dd>
+        </dl>
+        <button class="btn-save" onclick="event.stopPropagation(); saveContact('nomoreransom')">+ Kontakt speichern</button>
+      </div>
     </div>
   </div>
 
 </div>
-
 
 <footer>
   Niklas Nengelken · <a href="https://niklasnengelken.de">niklasnengelken.de</a>
 </footer>
 
 <script>
+/* ── Card toggle ── */
+function toggle(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+/* ── Contact data ── */
 const CONTACTS = {
   bsi: {
     fn: 'BSI-Hotline',
     org: 'Bundesamt für Sicherheit in der Informationstechnik',
     tel: '+498002741000',
-    note: 'Kostenlos. Erstberatung bei IT-Sicherheitsvorfällen.'
+    email: 'service-center@bsi.bund.de',
+    note: 'Kostenlos. Erstberatung bei IT-Sicherheitsvorfällen. Mo-Fr 08:00-18:00.'
   },
   lka: {
     fn: 'LKA Cybercrime NRW',
     org: 'Landeskriminalamt Nordrhein-Westfalen',
     tel: '+492119394040',
-    note: 'Zentrale Ansprechstelle Cybercrime. Strafanzeige erstatten.'
-  },
-  ldi: {
-    fn: 'LDI NRW (Datenschutz)',
-    org: 'Landesbeauftragte für Datenschutz und Informationsfreiheit NRW',
-    tel: '+49211384240',
-    note: 'DSGVO-Meldung bei Datenschutzverletzung. Frist 72 Stunden.'
+    email: 'cybercrime.lka@polizei.nrw.de',
+    note: 'Zentrale Ansprechstelle Cybercrime (ZAC). 24/7 erreichbar. Strafanzeige erstatten.'
   },
   nomoreransom: {
     fn: 'No More Ransom',
-    org: 'No More Ransom Project',
-    url: 'https://nomoreransom.org',
-    note: 'Kostenlose Entschlüsselungstools bei Ransomware.'
+    org: 'No More Ransom Project (Europol)',
+    url: 'https://www.nomoreransom.org',
+    note: 'Kostenlose Entschlüsselungstools bei Ransomware. Crypto Sheriff identifiziert Ransomware.'
   }
 };
 
+/* ── LDI data for all 16 states ── */
+const LDI_DATA = {
+  bw: {
+    name: 'LfDI Baden-Württemberg',
+    org: 'Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Baden-Württemberg',
+    tel: '+497116155410',
+    telDisplay: '0711 615541-0',
+    email: 'poststelle@lfdi.bwl.de',
+    web: 'https://www.baden-wuerttemberg.datenschutz.de'
+  },
+  by: {
+    name: 'BayLDA (Bayern)',
+    org: 'Bayerisches Landesamt für Datenschutzaufsicht',
+    tel: '+499819318930',
+    telDisplay: '0981 180093-0',
+    email: 'poststelle@lda.bayern.de',
+    web: 'https://www.lda.bayern.de',
+    hint: 'Zuständig für Zahnarztpraxen (nicht-öffentlicher Bereich).'
+  },
+  be: {
+    name: 'BlnBDI (Berlin)',
+    org: 'Berliner Beauftragte für Datenschutz und Informationsfreiheit',
+    tel: '+49301388900',
+    telDisplay: '030 13889-0',
+    email: 'mailbox@datenschutz-berlin.de',
+    web: 'https://www.datenschutz-berlin.de'
+  },
+  bb: {
+    name: 'LDA Brandenburg',
+    org: 'Die Landesbeauftragte für den Datenschutz und für das Recht auf Akteneinsicht Brandenburg',
+    tel: '+4933203356000',
+    telDisplay: '033203 356-0',
+    email: 'poststelle@lda.brandenburg.de',
+    web: 'https://www.lda.brandenburg.de'
+  },
+  hb: {
+    name: 'LfDI Bremen',
+    org: 'Die Landesbeauftragte für Datenschutz und Informationsfreiheit Bremen',
+    tel: '+494213612010',
+    telDisplay: '0421 361-2010',
+    email: 'office@datenschutz.bremen.de',
+    web: 'https://www.datenschutz.bremen.de'
+  },
+  hh: {
+    name: 'HmbBfDI (Hamburg)',
+    org: 'Der Hamburgische Beauftragte für Datenschutz und Informationsfreiheit',
+    tel: '+494042854040',
+    telDisplay: '040 42854-4040',
+    email: 'mailbox@datenschutz.hamburg.de',
+    web: 'https://datenschutz-hamburg.de'
+  },
+  he: {
+    name: 'HBDI (Hessen)',
+    org: 'Der Hessische Beauftragte für Datenschutz und Informationsfreiheit',
+    tel: '+496116114080',
+    telDisplay: '0611 1408-0',
+    email: 'poststelle@datenschutz.hessen.de',
+    web: 'https://www.datenschutz.hessen.de'
+  },
+  mv: {
+    name: 'LfDI Mecklenburg-Vorpommern',
+    org: 'Der Landesbeauftragte für Datenschutz und Informationsfreiheit Mecklenburg-Vorpommern',
+    tel: '+493855949400',
+    telDisplay: '0385 59494-0',
+    email: 'info@datenschutz-mv.de',
+    web: 'https://www.datenschutz-mv.de'
+  },
+  ni: {
+    name: 'LfD Niedersachsen',
+    org: 'Die Landesbeauftragte für den Datenschutz Niedersachsen',
+    tel: '+495111204500',
+    telDisplay: '0511 120-4500',
+    email: 'poststelle@lfd.niedersachsen.de',
+    web: 'https://www.lfd.niedersachsen.de'
+  },
+  nw: {
+    name: 'LDI NRW',
+    org: 'Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen',
+    tel: '+49211384240',
+    telDisplay: '0211 38424-0',
+    email: 'poststelle@ldi.nrw.de',
+    web: 'https://www.ldi.nrw.de'
+  },
+  rp: {
+    name: 'LfDI Rheinland-Pfalz',
+    org: 'Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz',
+    tel: '+49613189200',
+    telDisplay: '06131 8920-0',
+    email: 'poststelle@datenschutz.rlp.de',
+    web: 'https://www.datenschutz.rlp.de'
+  },
+  sl: {
+    name: 'UDZ Saarland',
+    org: 'Unabhängiges Datenschutzzentrum Saarland',
+    tel: '+496819478100',
+    telDisplay: '0681 94781-0',
+    email: 'poststelle@datenschutz.saarland.de',
+    web: 'https://www.datenschutz.saarland.de'
+  },
+  sn: {
+    name: 'SDTB Sachsen',
+    org: 'Sächsische Datenschutz- und Transparenzbeauftragte',
+    tel: '+493518547101',
+    telDisplay: '0351 85471-101',
+    email: 'post@sdtb.sachsen.de',
+    web: 'https://www.datenschutz.sachsen.de'
+  },
+  st: {
+    name: 'LfD Sachsen-Anhalt',
+    org: 'Landesbeauftragter für den Datenschutz Sachsen-Anhalt',
+    tel: '+493918180300',
+    telDisplay: '0391 81803-0',
+    email: 'poststelle@lfd.sachsen-anhalt.de',
+    web: 'https://datenschutz.sachsen-anhalt.de'
+  },
+  sh: {
+    name: 'ULD Schleswig-Holstein',
+    org: 'Unabhängiges Landeszentrum für Datenschutz Schleswig-Holstein',
+    tel: '+494319881200',
+    telDisplay: '0431 988-1200',
+    email: 'mail@datenschutzzentrum.de',
+    web: 'https://www.datenschutzzentrum.de'
+  },
+  th: {
+    name: 'TLfDI Thüringen',
+    org: 'Thüringer Landesbeauftragter für den Datenschutz und die Informationsfreiheit',
+    tel: '+4936157312900',
+    telDisplay: '0361 57-3112900',
+    email: 'poststelle@datenschutz.thueringen.de',
+    web: 'https://www.tlfdi.de'
+  }
+};
+
+/* ── LDI dropdown ── */
+function updateLDI() {
+  const key = document.getElementById('ldi-select').value;
+  const box = document.getElementById('ldi-info');
+  if (!key || !LDI_DATA[key]) {
+    box.innerHTML = '';
+    return;
+  }
+  const d = LDI_DATA[key];
+  let html = '<div class="ldi-name">' + d.name + '</div>';
+  html += 'Tel: <a href="tel:' + d.tel + '">' + d.telDisplay + '</a><br>';
+  html += 'E-Mail: <a href="mailto:' + d.email + '">' + d.email + '</a><br>';
+  html += 'Web: <a href="' + d.web + '" target="_blank" rel="noopener">' + d.web.replace('https://','') + '</a>';
+  if (d.hint) html += '<br><em>' + d.hint + '</em>';
+  box.innerHTML = html;
+}
+
+/* ── init LDI (NRW default) ── */
+updateLDI();
+
+/* ── vCard builder ── */
 function buildVCard(c) {
-  let lines = [
-    'BEGIN:VCARD',
-    'VERSION:3.0',
-    'FN:' + c.fn,
-    'ORG:' + c.org
-  ];
+  let lines = ['BEGIN:VCARD','VERSION:3.0','FN:' + c.fn,'ORG:' + c.org];
   if (c.tel) lines.push('TEL;TYPE=WORK,VOICE:' + c.tel);
+  if (c.email) lines.push('EMAIL;TYPE=WORK:' + c.email);
   if (c.url) lines.push('URL:' + c.url);
   lines.push('NOTE:' + c.note);
   lines.push('CATEGORIES:IT-Notfall');
@@ -228,27 +538,42 @@ function triggerDownload(vcfString, filename) {
   a.download = filename;
   document.body.appendChild(a);
   a.click();
-  setTimeout(() => {
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }, 100);
-}
-
-function openVcfUrl(key) {
-  // For iOS: open the .vcf file directly so Safari hands it to Contacts
-  window.location.href = 'vcf/' + key + '.vcf';
+  setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
 }
 
 function saveContact(key) {
   const c = CONTACTS[key];
   if (!c) return;
   if (isIOS()) {
-    openVcfUrl(key);
+    window.location.href = 'vcf/' + key + '.vcf';
   } else {
     triggerDownload(buildVCard(c), key + '.vcf');
   }
 }
 
+/* ── Save selected LDI as contact ── */
+function saveSelectedLDI() {
+  const key = document.getElementById('ldi-select').value;
+  if (!key || !LDI_DATA[key]) { alert('Bitte zuerst ein Bundesland wählen.'); return; }
+  const d = LDI_DATA[key];
+  const c = {
+    fn: d.name + ' (Datenschutz)',
+    org: d.org,
+    tel: d.tel,
+    email: d.email,
+    url: d.web,
+    note: 'DSGVO-Meldung bei Datenschutzverletzung. Frist 72 Stunden.'
+  };
+  const vcf = buildVCard(c);
+  if (isIOS()) {
+    // Create a temporary blob URL and navigate to it
+    const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    window.location.href = url;
+  } else {
+    triggerDownload(vcf, 'datenschutz-' + key + '.vcf');
+  }
+}
 </script>
 
 </body>

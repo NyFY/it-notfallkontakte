@@ -3,6 +3,7 @@ VERSION:3.0
 FN:BSI-Hotline
 ORG:Bundesamt für Sicherheit in der Informationstechnik
 TEL;TYPE=WORK,VOICE:+498002741000
-NOTE:Kostenlos. Erstberatung bei IT-Sicherheitsvorfällen.
+EMAIL;TYPE=WORK:service-center@bsi.bund.de
+NOTE:Kostenlos. Erstberatung bei IT-Sicherheitsvorfällen. Mo-Fr 08:00-18:00.
 CATEGORIES:IT-Notfall
 END:VCARD

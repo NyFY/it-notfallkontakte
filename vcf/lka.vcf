@@ -3,6 +3,7 @@ VERSION:3.0
 FN:LKA Cybercrime NRW
 ORG:Landeskriminalamt Nordrhein-Westfalen
 TEL;TYPE=WORK,VOICE:+492119394040
-NOTE:Zentrale Ansprechstelle Cybercrime. Strafanzeige erstatten.
+EMAIL;TYPE=WORK:cybercrime.lka@polizei.nrw.de
+NOTE:Zentrale Ansprechstelle Cybercrime (ZAC). 24/7 erreichbar. Strafanzeige erstatten.
 CATEGORIES:IT-Notfall
 END:VCARD
